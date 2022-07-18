@@ -118,13 +118,10 @@ else:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-#SENDING MAILS
+#SENDING EMAILS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = 'True'
 EMAIL_HOST_USER = config('EADDRESS')
 EMAIL_HOST_PASSWORD = config('EPASSWORD')
-# EMAIL_HOST_USER = 'manquiz92@gmail.com'
-# EMAIL_HOST_PASSWORD = 'Data@2020'

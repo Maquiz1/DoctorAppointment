@@ -12,7 +12,6 @@ from django.template import Context
 from django.template.loader import render_to_string, get_template
 
 
-
 # def home(request):
 #     return HttpResponse('HI')
 class HomeTemplateView(TemplateView):
@@ -51,7 +50,6 @@ class AppointmentTemplateView(TemplateView):
             phone=mobile,
             request=message
         )
-
         appointment.save()
 
         messages.add_message(request, messages.SUCCESS,
@@ -60,11 +58,11 @@ class AppointmentTemplateView(TemplateView):
 
 
 class ManageAppointmentTemplateView(ListView):
+    paginate_by = 3
     template_name = "manage-appointments.html"
     model = Appointment
     context_object_name = "appointments"
     login_required = True
-    paginate_by = 3
 
     def post(self, request):
         date = request.POST.get("date")
@@ -96,12 +94,14 @@ class ManageAppointmentTemplateView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        appointments = Appointment.objects.all()
+        # appointments = Appointment.objects.all()
+        appointments = Appointment.objects.filter(accepted=False)
         context.update({
             "appointments": appointments,
             "title": "Manage Appointments"
         })
         return context
+
 
 # class ManageAppointmentTemplateView(LoginRequiredMixin, ListView):
 #     template_name = 'manage-appointments.html'
@@ -110,6 +110,8 @@ class ManageAppointmentTemplateView(ListView):
 #     paginate_by = 3
 #
 #     def get_queryset(self, *args, **kwargs):
-#         super().get_queryset(*args, **kwargs).filter(
+#         context = super().get_queryset(*args, **kwargs).filter(
 #             first_name=self.request.user
 #         ).order_by('-sent_date')
+#
+#         return context
